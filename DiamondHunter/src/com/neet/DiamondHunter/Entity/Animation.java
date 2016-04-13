@@ -21,7 +21,6 @@ public class Animation {
 		timesPlayed = 0;
 	}
 	
-	//TODO for individual frame
 	public void setFrames(BufferedImage[] frames) {
 		this.frames = frames;
 		currentFrame = 0;

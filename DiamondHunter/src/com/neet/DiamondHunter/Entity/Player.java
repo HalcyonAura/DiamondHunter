@@ -34,12 +34,14 @@ public class Player extends Entity {
 	private final int LEFTBOAT = 5;
 	private final int RIGHTBOAT = 6;
 	private final int UPBOAT = 7;
+	private final int STOPPED = 8;
 	
 	// gameplay
 	private int numDiamonds;
 	private int totalDiamonds;
 	private boolean hasBoat;
 	private boolean hasAxe;
+	private boolean hasSchlussel;
 	private boolean onWater;
 	private long ticks;
 	
@@ -70,7 +72,6 @@ public class Player extends Entity {
 		
 	}
 	
-	//TODO
 	private void setAnimation(int i, BufferedImage[] bi, int d) {
 		currentAnimation = i;
 		animation.setFrames(bi);
@@ -84,9 +85,10 @@ public class Player extends Entity {
 	
 	public void gotBoat() { hasBoat = true; tileMap.replace(22, 4); }
 	public void gotAxe() { hasAxe = true; }
+	public void gotSchlussel(){hasSchlussel = true;}
 	public boolean hasBoat() { return hasBoat; }
 	public boolean hasAxe() { return hasAxe; }
-	
+	public boolean hasSchlussel(){return hasSchlussel;}
 	// Used to update time.
 	public long getTicks() { return ticks; }
 	
@@ -107,7 +109,8 @@ public class Player extends Entity {
 	// Keyboard input.
 	// If Player has axe, dead trees in front
 	// of the Player will be chopped down.
-	//TODO for stopping moving
+	// If Player has key, doors in front 
+	// of the player will be opened
 	public void setAction() {
 		if(hasAxe) {
 			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 21) {
@@ -123,6 +126,24 @@ public class Player extends Entity {
 				JukeBox.play("tilechange");
 			}
 			if(currentAnimation == RIGHT && tileMap.getIndex(rowTile, colTile + 1) == 21) {
+				tileMap.setTile(rowTile, colTile + 1, 1);
+				JukeBox.play("tilechange");
+			}
+		}
+		if(hasSchlussel) {
+			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 23) {
+				tileMap.setTile(rowTile - 1, colTile, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == DOWN && tileMap.getIndex(rowTile + 1, colTile) == 23) {
+				tileMap.setTile(rowTile + 1, colTile, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == LEFT && tileMap.getIndex(rowTile, colTile - 1) == 23) {
+				tileMap.setTile(rowTile, colTile - 1, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == RIGHT && tileMap.getIndex(rowTile, colTile + 1) == 23) {
 				tileMap.setTile(rowTile, colTile + 1, 1);
 				JukeBox.play("tilechange");
 			}
@@ -151,10 +172,10 @@ public class Player extends Entity {
 			if(onWater && currentAnimation != DOWNBOAT) {
 				setAnimation(DOWNBOAT, downBoatSprites, 10);
 			}
-			//if !onWater && currentAnimation != DOWN && !tileMap.isMoving())
 			else if(!onWater && currentAnimation != DOWN) {
 				setAnimation(DOWN, downSprites, 10);
 			}
+			
 		}
 		if(left) {
 			if(onWater && currentAnimation != LEFTBOAT) {
@@ -163,6 +184,7 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != LEFT) {
 				setAnimation(LEFT, leftSprites, 10);
 			}
+			
 		}
 		if(right) {
 			if(onWater && currentAnimation != RIGHTBOAT) {
@@ -171,6 +193,7 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != RIGHT) {
 				setAnimation(RIGHT, rightSprites, 10);
 			}
+			
 		}
 		if(up) {
 			if(onWater && currentAnimation != UPBOAT) {
@@ -179,7 +202,11 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != UP) {
 				setAnimation(UP, upSprites, 10);
 			}
+			
 		}
+		//stop animation if you're stopped and not on water after one full animation
+		if(!onWater && !moving && currentAnimation != STOPPED && animation.hasPlayedOnce()) 
+			setAnimation(STOPPED, new BufferedImage[]{this.animation.getImage()},1000000);
 		
 		// update position
 		super.update();
