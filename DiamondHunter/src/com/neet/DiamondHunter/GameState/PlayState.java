@@ -188,6 +188,21 @@ public class PlayState extends GameState {
 		item.setType(Item.SCHLUSSEL);
 		item.setTilePosition(17, 14);
 		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.CHAINSAW);
+		item.setTilePosition(17, 19);
+		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.GASOLINE);
+		item.setTilePosition(19,19);
+		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.GASOLINE);
+		item.setTilePosition(21,19);
+		items.add(item);
 	}
 	
 	public void update() {

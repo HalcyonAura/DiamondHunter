@@ -24,6 +24,8 @@ public class Hud {
 	private BufferedImage boat;
 	private BufferedImage axe;
 	private BufferedImage schlussel;
+	private BufferedImage chainsaw;
+	private BufferedImage gasoline;
 	
 	private Player player;
 	
@@ -43,6 +45,8 @@ public class Hud {
 		boat = Content.ITEMS[0][0];
 		axe = Content.ITEMS[0][1];
 		schlussel = Content.ITEMS[0][2];
+		chainsaw = Content.ITEMS[0][3];
+		gasoline = Content.ITEMS[0][4];
 		
 		font = new Font("Arial", Font.PLAIN, 10);
 		textColor = new Color(47, 64, 126);
@@ -55,21 +59,23 @@ public class Hud {
 		g.drawImage(bar, 0, yoffset, null);
 		
 		// draw diamond bar
-		g.setColor(textColor);
-		g.fillRect(8, yoffset + 6, (int)(28.0 * player.numDiamonds() / numDiamonds), 4);
+		//g.setColor(textColor);
+		//g.fillRect(8, yoffset + 6, (int)(28.0 * player.numDiamonds() / numDiamonds), 4);
 		
 		// draw diamond amount
 		g.setColor(textColor);
 		g.setFont(font);
 		String s = player.numDiamonds() + "/" + numDiamonds;
-		Content.drawString(g, s, 40, yoffset + 3);
-		if(player.numDiamonds() >= 10) g.drawImage(diamond, 80, yoffset, null);
-		else g.drawImage(diamond, 72, yoffset, null);
+		Content.drawString(g, s, 2, 3);
+		if(player.numDiamonds() >= 10) g.drawImage(diamond, 42, 0, null);
+		else g.drawImage(diamond, 34, 0, null);
 		
 		// draw items
-		if(player.hasBoat()) g.drawImage(boat, 101, yoffset, null);
 		if(player.hasAxe()) g.drawImage(axe, 112, yoffset, null);
+		if(player.hasBoat()) g.drawImage(boat, 101, yoffset, null);
 		if(player.hasSchlussel()) g.drawImage(schlussel, 90, yoffset, null);
+		if(player.hasChainsaw()) g.drawImage(chainsaw, 79, yoffset, null);
+		if(player.hasGasoline()) g.drawImage(gasoline, 68, yoffset, null);
 		
 		// draw time
 		int minutes = (int) (player.getTicks() / 1800);

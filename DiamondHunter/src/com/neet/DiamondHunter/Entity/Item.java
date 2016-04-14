@@ -18,6 +18,8 @@ public class Item extends Entity{
 	public static final int BOAT = 0;
 	public static final int AXE = 1;
 	public static final int SCHLUSSEL = 2;
+	public static final int CHAINSAW = 3;
+	public static final int GASOLINE = 4;
 	
 	public Item(TileMap tm) {
 		super(tm);
@@ -37,6 +39,12 @@ public class Item extends Entity{
 		else if(type == SCHLUSSEL) {
 			sprite = Content.ITEMS[1][2];
 		}
+		else if(type == CHAINSAW) {
+			sprite = Content.ITEMS[1][3];
+		}
+		else if(type == GASOLINE) {
+			sprite = Content.ITEMS[1][4];
+		}
 	}
 	
 	public void collected(Player p) {
@@ -48,6 +56,12 @@ public class Item extends Entity{
 		}
 		if(type == SCHLUSSEL){
 			p.gotSchlussel();
+		}
+		if(type == CHAINSAW){
+			p.gotChainsaw();
+		}
+		if(type == GASOLINE){
+			p.gotGasoline();
 		}
 	}
 	
