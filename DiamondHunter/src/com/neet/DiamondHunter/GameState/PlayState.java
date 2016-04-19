@@ -92,7 +92,7 @@ public class PlayState extends GameState {
 		hud = new Hud(player, diamonds);
 		
 		// load music
-		JukeBox.load("/Music/bgmusic.mp3", "music1");
+		JukeBox.load("/Music/bgmusic.wav", "music1");
 		JukeBox.setVolume("music1", -10);
 		JukeBox.loop("music1", 1000, 1000, JukeBox.getFrames("music1") - 1000);
 		JukeBox.load("/Music/finish.mp3", "finish");
@@ -184,6 +184,25 @@ public class PlayState extends GameState {
 		item.setTilePosition(12, 4);
 		items.add(item);
 		
+		item = new Item(tileMap);
+		item.setType(Item.SCHLUSSEL);
+		item.setTilePosition(17, 14);
+		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.CHAINSAW);
+		item.setTilePosition(17, 19);
+		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.GASOLINE);
+		item.setTilePosition(19,19);
+		items.add(item);
+		
+		item = new Item(tileMap);
+		item.setType(Item.GASOLINE);
+		item.setTilePosition(21,19);
+		items.add(item);
 	}
 	
 	public void update() {
@@ -316,6 +335,24 @@ public class PlayState extends GameState {
 		if(Keys.isPressed(Keys.ESCAPE)) {
 			JukeBox.stop("music1");
 			gsm.setPaused(true);
+		}
+		if(Keys.isPressed(Keys.MUTE)) {
+			if(JukeBox.isPlaying("music1")){
+					JukeBox.stop("music1");
+					JukeBox.setVolume("finish",-100000);
+					JukeBox.setVolume("collect",-100000);
+					JukeBox.setVolume("mapmove",-100000);
+					JukeBox.setVolume("tilechange",-100000);
+					JukeBox.setVolume("splash",-100000);
+			}
+			else {
+				JukeBox.resumeLoop("music1");
+				JukeBox.setVolume("finish",0);
+				JukeBox.setVolume("collect",0);
+				JukeBox.setVolume("mapmove",0);
+				JukeBox.setVolume("tilechange",0);
+				JukeBox.setVolume("splash",0);
+			}
 		}
 		if(blockInput) return;
 		if(Keys.isDown(Keys.LEFT)) player.setLeft();
