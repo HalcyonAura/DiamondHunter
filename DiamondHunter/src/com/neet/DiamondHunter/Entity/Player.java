@@ -34,18 +34,24 @@ public class Player extends Entity {
 	private final int LEFTBOAT = 5;
 	private final int RIGHTBOAT = 6;
 	private final int UPBOAT = 7;
-	
+	//private final int STOPPED = 8;
+	private boolean stopped;
 	// gameplay
 	private int numDiamonds;
 	private int totalDiamonds;
 	private boolean hasBoat;
 	private boolean hasAxe;
+	private boolean hasSchlussel;
+	private boolean hasChainsaw;
+	private int gasoline;
 	private boolean onWater;
 	private long ticks;
 	
 	public Player(TileMap tm) {
 		
 		super(tm);
+		
+		stopped = false;
 		
 		width = 16;
 		height = 16;
@@ -70,7 +76,6 @@ public class Player extends Entity {
 		
 	}
 	
-	//TODO
 	private void setAnimation(int i, BufferedImage[] bi, int d) {
 		currentAnimation = i;
 		animation.setFrames(bi);
@@ -84,9 +89,14 @@ public class Player extends Entity {
 	
 	public void gotBoat() { hasBoat = true; tileMap.replace(22, 4); }
 	public void gotAxe() { hasAxe = true; }
+	public void gotSchlussel(){hasSchlussel = true;}
+	public void gotChainsaw(){hasChainsaw = true;}
+	public void gotGasoline(){gasoline += 3;}
 	public boolean hasBoat() { return hasBoat; }
 	public boolean hasAxe() { return hasAxe; }
-	
+	public boolean hasSchlussel(){return hasSchlussel;}
+	public boolean hasChainsaw(){return hasChainsaw;}
+	public boolean hasGasoline(){return gasoline >0;}
 	// Used to update time.
 	public long getTicks() { return ticks; }
 	
@@ -107,7 +117,8 @@ public class Player extends Entity {
 	// Keyboard input.
 	// If Player has axe, dead trees in front
 	// of the Player will be chopped down.
-	//TODO for stopping moving
+	// If Player has key, doors in front 
+	// of the player will be opened
 	public void setAction() {
 		if(hasAxe) {
 			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 21) {
@@ -125,6 +136,54 @@ public class Player extends Entity {
 			if(currentAnimation == RIGHT && tileMap.getIndex(rowTile, colTile + 1) == 21) {
 				tileMap.setTile(rowTile, colTile + 1, 1);
 				JukeBox.play("tilechange");
+			}
+		}
+		if(hasSchlussel) {
+			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 23) {
+				tileMap.setTile(rowTile - 1, colTile, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == DOWN && tileMap.getIndex(rowTile + 1, colTile) == 23) {
+				tileMap.setTile(rowTile + 1, colTile, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == LEFT && tileMap.getIndex(rowTile, colTile - 1) == 23) {
+				tileMap.setTile(rowTile, colTile - 1, 1);
+				JukeBox.play("tilechange");
+			}
+			if(currentAnimation == RIGHT && tileMap.getIndex(rowTile, colTile + 1) == 23) {
+				tileMap.setTile(rowTile, colTile + 1, 1);
+				JukeBox.play("tilechange");
+			}
+		}
+		if(hasChainsaw && gasoline >0) {
+			if(currentAnimation == UP && (tileMap.getIndex(rowTile - 1, colTile) == 20 || 
+					tileMap.getIndex(rowTile - 1, colTile) == 21 || 
+					tileMap.getIndex(rowTile - 1, colTile) == 23)) {
+				tileMap.setTile(rowTile - 1, colTile, 1);
+				JukeBox.play("tilechange");
+				gasoline--;
+			}
+			if(currentAnimation == DOWN && (tileMap.getIndex(rowTile + 1, colTile) == 20 || 
+					tileMap.getIndex(rowTile + 1, colTile) == 21 ||
+					tileMap.getIndex(rowTile + 1, colTile) == 23)) {
+				tileMap.setTile(rowTile + 1, colTile, 1);
+				JukeBox.play("tilechange");
+				gasoline--;
+			}
+			if(currentAnimation == LEFT && (tileMap.getIndex(rowTile, colTile - 1) == 20 ||
+					tileMap.getIndex(rowTile, colTile - 1) == 21 ||
+					tileMap.getIndex(rowTile, colTile - 1) == 23)) {
+				tileMap.setTile(rowTile, colTile - 1, 1);
+				JukeBox.play("tilechange");
+				gasoline--;
+			}
+			if(currentAnimation == RIGHT && (tileMap.getIndex(rowTile, colTile + 1) == 20 ||
+					tileMap.getIndex(rowTile, colTile + 1) == 21 ||
+					tileMap.getIndex(rowTile, colTile + 1) == 23)) {
+				tileMap.setTile(rowTile, colTile + 1, 1);
+				JukeBox.play("tilechange");
+				gasoline--;
 			}
 		}
 	}
@@ -151,10 +210,11 @@ public class Player extends Entity {
 			if(onWater && currentAnimation != DOWNBOAT) {
 				setAnimation(DOWNBOAT, downBoatSprites, 10);
 			}
-			//if !onWater && currentAnimation != DOWN && !tileMap.isMoving())
 			else if(!onWater && currentAnimation != DOWN) {
 				setAnimation(DOWN, downSprites, 10);
 			}
+			stopped = false;
+			
 		}
 		if(left) {
 			if(onWater && currentAnimation != LEFTBOAT) {
@@ -163,6 +223,7 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != LEFT) {
 				setAnimation(LEFT, leftSprites, 10);
 			}
+			stopped = false;
 		}
 		if(right) {
 			if(onWater && currentAnimation != RIGHTBOAT) {
@@ -171,6 +232,7 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != RIGHT) {
 				setAnimation(RIGHT, rightSprites, 10);
 			}
+			stopped = false;
 		}
 		if(up) {
 			if(onWater && currentAnimation != UPBOAT) {
@@ -179,8 +241,13 @@ public class Player extends Entity {
 			else if(!onWater && currentAnimation != UP) {
 				setAnimation(UP, upSprites, 10);
 			}
+			stopped = false;
 		}
-		
+		//stop animation if you're stopped and not on water after one full animation
+		if(!onWater && !moving && !stopped && animation.hasPlayedOnce()){
+			setAnimation(currentAnimation, new BufferedImage[]{this.animation.getImage()},1000000);
+			stopped = true;
+		}
 		// update position
 		super.update();
 		

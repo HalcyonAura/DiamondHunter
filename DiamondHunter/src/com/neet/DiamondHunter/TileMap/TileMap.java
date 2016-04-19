@@ -239,3 +239,22 @@ public class TileMap {
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
