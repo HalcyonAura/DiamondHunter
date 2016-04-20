@@ -163,29 +163,33 @@ public class Player extends Entity {
 		}
 		if(hasChainsaw && gasoline >0) {
 			if(currentAnimation == UP && (tileMap.getIndex(rowTile - 1, colTile) == 20 || 
-					tileMap.getIndex(rowTile - 1, colTile) == 21 || 
-					tileMap.getIndex(rowTile - 1, colTile) == 23)) {
+					tileMap.getIndex(rowTile - 1, colTile) == 21
+					// || tileMap.getIndex(rowTile - 1, colTile) == 23
+					)) {
 				tileMap.setTile(rowTile - 1, colTile, 1);
 				JukeBox.play("tilechange");
 				gasoline--;
 			}
 			if(currentAnimation == DOWN && (tileMap.getIndex(rowTile + 1, colTile) == 20 || 
-					tileMap.getIndex(rowTile + 1, colTile) == 21 ||
-					tileMap.getIndex(rowTile + 1, colTile) == 23)) {
+					tileMap.getIndex(rowTile + 1, colTile) == 21
+					// || tileMap.getIndex(rowTile + 1, colTile) == 23
+					)) {
 				tileMap.setTile(rowTile + 1, colTile, 1);
 				JukeBox.play("tilechange");
 				gasoline--;
 			}
 			if(currentAnimation == LEFT && (tileMap.getIndex(rowTile, colTile - 1) == 20 ||
-					tileMap.getIndex(rowTile, colTile - 1) == 21 ||
-					tileMap.getIndex(rowTile, colTile - 1) == 23)) {
+					tileMap.getIndex(rowTile, colTile - 1) == 21
+					// || tileMap.getIndex(rowTile, colTile - 1) == 23
+					)) {
 				tileMap.setTile(rowTile, colTile - 1, 1);
 				JukeBox.play("tilechange");
 				gasoline--;
 			}
 			if(currentAnimation == RIGHT && (tileMap.getIndex(rowTile, colTile + 1) == 20 ||
-					tileMap.getIndex(rowTile, colTile + 1) == 21 ||
-					tileMap.getIndex(rowTile, colTile + 1) == 23)) {
+					tileMap.getIndex(rowTile, colTile + 1) == 21
+					// || tileMap.getIndex(rowTile, colTile + 1) == 23
+					)) {
 				tileMap.setTile(rowTile, colTile + 1, 1);
 				JukeBox.play("tilechange");
 				gasoline--;
