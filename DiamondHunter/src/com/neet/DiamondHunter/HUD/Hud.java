@@ -59,8 +59,8 @@ public class Hud {
 		g.drawImage(bar, 0, yoffset, null);
 		
 		// draw diamond bar
-		//g.setColor(textColor);
-		//g.fillRect(8, yoffset + 6, (int)(28.0 * player.numDiamonds() / numDiamonds), 4);
+		g.setColor(textColor);
+		g.fillRect(8, yoffset + 6, (int)(28.0 * player.numDiamonds() / numDiamonds), 4);
 		
 		// draw diamond amount
 		g.setColor(textColor);
@@ -75,7 +75,10 @@ public class Hud {
 		if(player.hasBoat()) g.drawImage(boat, 101, yoffset, null);
 		if(player.hasSchlussel()) g.drawImage(schlussel, 90, yoffset, null);
 		if(player.hasChainsaw()) g.drawImage(chainsaw, 79, yoffset, null);
-		if(player.hasGasoline()) g.drawImage(gasoline, 68, yoffset, null);
+		if(player.hasGasoline()){
+			g.drawImage(gasoline, 68, yoffset, null);
+			Content.drawString(g, player.volGasoline() + "x", 53, yoffset+4);
+		}
 		
 		// draw time
 		int minutes = (int) (player.getTicks() / 1800);

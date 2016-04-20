@@ -31,17 +31,32 @@ public class OptionState extends GameState {
 		//'use boat to cross water'
 		//'use key to open door'
 		//'use chainsaw with gasoline to chop trees'
-		Content.drawString(g, "arrow", 12, 76);
-		Content.drawString(g, "keys", 16, 84);
-		Content.drawString(g, ": move", 52, 80);
+		Content.drawString(g, "arrow keys:move", 2, 10);
+		Content.drawString(g, "WASD:move", 2, 20);
+		/*
+		Content.drawString(g, "space:axe", 2, 30);
+		Content.drawString(g, "key", 50, 40);
+		Content.drawString(g, "chainsaw", 50, 50);
 		
-		Content.drawString(g, "space", 12, 96);
-		Content.drawString(g, ": action", 52, 96);
-		
-		Content.drawString(g, "F1:", 36, 112);
-		Content.drawString(g, "return", 68, 108);
-		Content.drawString(g, "to menu", 68, 116);
-		
+		Content.drawString(g, "F1:return to", 2, 60);
+		Content.drawString(g, "menu", 26, 70);
+		Content.drawString(g, "esc:pause game", 2, 80);
+		Content.drawString(g, ":find all 15", 2, 90);
+		Content.drawString(g, " diamonds", 2, 100);
+		Content.drawString(g, ":find the boat", 2, 110);
+		Content.drawString(g, " to cross water", 2, 120);
+		*/
+		Content.drawString(g, "space:use tool", 2, 30);
+		Content.drawString(g, ":axe cuts stump", 2, 40);
+		Content.drawString(g, ":key opens door", 2, 50);
+		Content.drawString(g, "esc:pause game", 2, 60);
+		Content.drawString(g, ":find all 15", 2, 70);
+		Content.drawString(g, " diamonds", 2, 80);
+		Content.drawString(g, ":find the boat", 2, 90);
+		Content.drawString(g, " to cross water", 2, 100);
+		Content.drawString(g, ":chainsaw uses", 2, 110);
+		Content.drawString(g, " gasoline", 2, 120);
+		Content.drawString(g, "f1: main menu", 2, 130);
 	}
 	public void handleInput() {
 		if(Keys.isPressed(Keys.F1)) {

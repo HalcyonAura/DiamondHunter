@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.JukeBox;
+import com.neet.DiamondHunter.Manager.Keys;
 import com.neet.DiamondHunter.TileMap.TileMap;
 
 public class Player extends Entity {
@@ -97,6 +98,8 @@ public class Player extends Entity {
 	public boolean hasSchlussel(){return hasSchlussel;}
 	public boolean hasChainsaw(){return hasChainsaw;}
 	public boolean hasGasoline(){return gasoline >0;}
+	public int volGasoline(){return gasoline;}
+	
 	// Used to update time.
 	public long getTicks() { return ticks; }
 	
@@ -120,6 +123,8 @@ public class Player extends Entity {
 	// If Player has key, doors in front 
 	// of the player will be opened
 	public void setAction() {
+		int holdanimation = currentAnimation;
+		currentAnimation %= 4;
 		if(hasAxe) {
 			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 21) {
 				tileMap.setTile(rowTile - 1, colTile, 1);
@@ -185,7 +190,9 @@ public class Player extends Entity {
 				JukeBox.play("tilechange");
 				gasoline--;
 			}
+			
 		}
+		currentAnimation = holdanimation;
 	}
 	
 	public void update() {
@@ -206,51 +213,54 @@ public class Player extends Entity {
 		}
 		
 		// set animation
+		int at = 5;//animation time
 		if(down) {
 			if(onWater && currentAnimation != DOWNBOAT) {
-				setAnimation(DOWNBOAT, downBoatSprites, 10);
+				setAnimation(DOWNBOAT, downBoatSprites, at);
 			}
 			else if(!onWater && currentAnimation != DOWN) {
-				setAnimation(DOWN, downSprites, 10);
+				setAnimation(DOWN, downSprites, at);
 			}
 			stopped = false;
 			
 		}
 		if(left) {
 			if(onWater && currentAnimation != LEFTBOAT) {
-				setAnimation(LEFTBOAT, leftBoatSprites, 10);
+				setAnimation(LEFTBOAT, leftBoatSprites, at);
 			}
 			else if(!onWater && currentAnimation != LEFT) {
-				setAnimation(LEFT, leftSprites, 10);
+				setAnimation(LEFT, leftSprites, at);
 			}
 			stopped = false;
 		}
 		if(right) {
 			if(onWater && currentAnimation != RIGHTBOAT) {
-				setAnimation(RIGHTBOAT, rightBoatSprites, 10);
+				setAnimation(RIGHTBOAT, rightBoatSprites, at);
 			}
 			else if(!onWater && currentAnimation != RIGHT) {
-				setAnimation(RIGHT, rightSprites, 10);
+				setAnimation(RIGHT, rightSprites, at);
 			}
 			stopped = false;
 		}
 		if(up) {
 			if(onWater && currentAnimation != UPBOAT) {
-				setAnimation(UPBOAT, upBoatSprites, 10);
+				setAnimation(UPBOAT, upBoatSprites, at);
 			}
 			else if(!onWater && currentAnimation != UP) {
-				setAnimation(UP, upSprites, 10);
+				setAnimation(UP, upSprites, at);
 			}
 			stopped = false;
 		}
-		//stop animation if you're stopped and not on water after one full animation
-		if(!onWater && !moving && !stopped && animation.hasPlayedOnce()){
-			setAnimation(currentAnimation, new BufferedImage[]{this.animation.getImage()},1000000);
+		//stop animation 
+		if(!onWater && !moving){
+			setAnimation(currentAnimation + 8, new BufferedImage[]{this.animation.getImage()},1000000);
+
 			stopped = true;
 		}
+		
+
 		// update position
 		super.update();
-		
 	}
 	
 	// Draw Player.
