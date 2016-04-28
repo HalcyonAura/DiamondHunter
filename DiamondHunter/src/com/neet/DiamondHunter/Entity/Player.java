@@ -92,7 +92,7 @@ public class Player extends Entity {
 	public void gotAxe() { hasAxe = true; }
 	public void gotSchlussel(){hasSchlussel = true;}
 	public void gotChainsaw(){hasChainsaw = true;}
-	public void gotGasoline(){gasoline += 3;}
+	public void gotGasoline(){gasoline += 1;}
 	public boolean hasBoat() { return hasBoat; }
 	public boolean hasAxe() { return hasAxe; }
 	public boolean hasSchlussel(){return hasSchlussel;}

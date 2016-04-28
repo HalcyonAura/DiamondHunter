@@ -1,4 +1,4 @@
-package JUnitTests;
+package com.neet.DiamondHunter.JUnitTests;
 
 import static org.junit.Assert.*;
 

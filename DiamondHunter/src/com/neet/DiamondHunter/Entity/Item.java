@@ -1,6 +1,5 @@
 // Possibly redundant subclass of Entity.
-// There are two types of items: Axe (gas
-// powered chainsaw) and boat.
+// There are two types of items: Axe and boat.
 // Upon collection, informs the Player
 // that the Player does indeed have the item.
 
@@ -18,6 +17,9 @@ public class Item extends Entity{
 	private int type;
 	public static final int BOAT = 0;
 	public static final int AXE = 1;
+	public static final int SCHLUSSEL = 2;
+	public static final int CHAINSAW = 3;
+	public static final int GASOLINE = 4;
 	
 	public Item(TileMap tm) {
 		super(tm);
@@ -34,6 +36,15 @@ public class Item extends Entity{
 		else if(type == AXE) {
 			sprite = Content.ITEMS[1][1];
 		}
+		else if(type == SCHLUSSEL) {
+			sprite = Content.ITEMS[1][2];
+		}
+		else if(type == CHAINSAW) {
+			sprite = Content.ITEMS[1][3];
+		}
+		else if(type == GASOLINE) {
+			sprite = Content.ITEMS[1][4];
+		}
 	}
 	
 	public void collected(Player p) {
@@ -42,6 +53,15 @@ public class Item extends Entity{
 		}
 		if(type == AXE) {
 			p.gotAxe();
+		}
+		if(type == SCHLUSSEL){
+			p.gotSchlussel();
+		}
+		if(type == CHAINSAW){
+			p.gotChainsaw();
+		}
+		if(type == GASOLINE){
+			p.gotGasoline();
 		}
 	}
 	
